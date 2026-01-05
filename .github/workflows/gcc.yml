@@ -1,0 +1,34 @@
+name: Sedot gcc
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download-and-commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Download the file
+      run: |
+        git lfs install
+        git lfs push --all origin
+        git lfs track "*.tar.gz"
+        git add .gitattributes
+        wget "https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/refs/heads/android11-release.tar.gz"
+        tar xzvf android11-release.tar.gz
+        rm android11-release.tar.gz
+    - name: Configure Git
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "actions@github.com"
+    - name: Add and Commit file
+      run: |
+        git add *
+        git commit -m "initial gcc android11-release"
+        git push
