@@ -20,6 +20,7 @@ jobs:
         git lfs push --all origin
         git lfs track "*.tar.gz"
         git add .gitattributes
+        cd toolchain && mkdir gcc && cd gcc
         wget "https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/refs/heads/android11-release.tar.gz"
         tar xzvf android11-release.tar.gz
         rm android11-release.tar.gz
