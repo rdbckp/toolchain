@@ -12,11 +12,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
 
-    - name: environment
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y gcc-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
-        
     - name: Build
       run: |
         rm -f *.zip
@@ -30,6 +25,6 @@ jobs:
         
     - name: Add and Commit file
       run: |
-        git add -A
+        git add zImage.zip
         git commit -m "compiled successfully"
         git push
