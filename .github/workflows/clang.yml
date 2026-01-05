@@ -1,0 +1,39 @@
+name: Sedot clang
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - clang
+
+jobs:
+  download-and-commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Download the file
+      run: |
+        git lfs install
+        git lfs push --all origin
+        git lfs track "*.tar.gz"
+        git add .gitattributes
+        mkdir toolchain && cd toolchain
+        mkdir clang && cd clang
+        wget "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/android11-release/clang-r383902.tar.gz"
+        tar xzvf clang-r383902.tar.gz
+        rm clang-r383902.tar.gz
+    - name: Configure Git
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "actions@github.com"
+    - name: Add and Commit file
+      run: |
+        git add *
+        git commit -m "initial clang-r383902"
+        git push
