@@ -20,7 +20,7 @@ jobs:
     - name: Build
       run: |
         rm -f *.zip
-        chmod +x da.sh
+        chmod +x -R *
         ./da.sh
     
     - name: Configure Git
