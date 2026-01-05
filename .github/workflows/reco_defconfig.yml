@@ -1,0 +1,35 @@
+name: Build reco_defconfig
+
+on: workflow_dispatch
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
+    - name: environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
+        
+    - name: Build
+      run: |
+        rm -f *.zip
+        chmod +x da.sh
+        ./da.sh
+    
+    - name: Configure Git
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "actions@github.com"
+        
+    - name: Add and Commit file
+      run: |
+        git add -A
+        git commit -m "compiled successfully"
+        git push
