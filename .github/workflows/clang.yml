@@ -2,9 +2,6 @@ name: Sedot clang
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - clang
 
 jobs:
   download-and-commit:
